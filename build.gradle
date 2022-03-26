@@ -1,0 +1,36 @@
+plugins {
+    id 'java'
+    id 'com.github.johnrengelman.shadow' version '5.1.0'
+}
+
+group 'borg.locutus.accesstokengenerator'
+version '0.0.1'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+
+    compile 'com.microsoft.azure:msal4j:1.11.0'
+    compile files('libs/MCAuthLib-2.3.jar')
+    compile 'com.google.code.gson:gson:2.9.0'
+
+    compileOnly 'org.projectlombok:lombok:1.18.12'
+    annotationProcessor 'org.projectlombok:lombok:1.18.12'
+}
+
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'borg.locutus.accesstokengenerator.Launcher'
+        )
+    }
+}
+
+shadowJar {
+    configurations = [project.configurations.compile]
+}
+
+build.finalizedBy shadowJar
